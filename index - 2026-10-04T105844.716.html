@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Quiz</title>
+</head>
+<body>
+
+    <h1>Online Quiz</h1>
+
+    <h3>Time Left: <span id="timer">30</span> seconds</h3>
+
+    <h2>Question 1</h2>
+
+    <p>Which language creates the structure of a webpage?</p>
+
+    <input type="radio" name="answer" value="HTML">
+    HTML<br>
+
+    <input type="radio" name="answer" value="CSS">
+    CSS<br>
+
+    <input type="radio" name="answer" value="JavaScript">
+    JavaScript<br>
+
+    <input type="radio" name="answer" value="Python">
+    Python<br><br>
+
+    <button id="submitBtn" onclick="submitAnswer()">
+        Submit Answer
+    </button>
+
+    <p id="result"></p>
+
+    <script>
+        let timeLeft = 30;
+        let submitted = false;
+
+        const countdown = setInterval(function () {
+            if (submitted) return;
+
+            timeLeft--;
+            document.getElementById("timer").innerText = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                submitted = true;
+                document.getElementById("result").innerText =
+                    "Time's up! Quiz ended.";
+                disableOptions();
+            }
+        }, 1000);
+
+        function submitAnswer() {
+            if (submitted) return;
+
+            const selected = document.querySelector(
+                'input[name="answer"]:checked'
+            );
+
+            if (!selected) {
+                document.getElementById("result").innerText =
+                    "Please select an option first!";
+                return;
+            }
+
+            submitted = true;
+            clearInterval(countdown);
+
+            if (selected.value === "HTML") {
+                document.getElementById("result").innerText =
+                    "Correct Answer!";
+            } else {
+                document.getElementById("result").innerText =
+                    "Wrong Answer! The correct answer is HTML.";
+            }
+
+            disableOptions();
+        }
+
+        function disableOptions() {
+            document.querySelectorAll('input[name="answer"]')
+                .forEach(function (option) {
+                    option.disabled = true;
+                });
+
+            document.getElementById("submitBtn").disabled = true;
+        }
+    </script>
+
+</body>
+  </html>
+                                        
